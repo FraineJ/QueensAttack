@@ -1,4 +1,6 @@
 import operator
+from multiprocessing import Pool
+import time
 
 OPERATORS = {
     "+": operator.add,
@@ -29,10 +31,9 @@ def movementscounter(dst, length, queen, obstacles_positions):
     pointer = queen
     pointer = [calculate(pointer[0], MOVEMENTS[dst][0]), calculate(pointer[1], MOVEMENTS[dst][1])]
     while 0 < pointer[0] <= length and 0 < pointer[1] <= length:
-        try:
-            obstacles_positions.index(pointer)
+        if pointer in obstacles_positions:
             break
-        except ValueError:
+        else:
             movements_counter += 1
             pointer = [calculate(pointer[0], MOVEMENTS[dst][0]), calculate(pointer[1], MOVEMENTS[dst][1])]
     return movements_counter
@@ -52,7 +53,13 @@ def queensattack():
         for movement in MOVEMENTS.keys():
             counter = counter + movementscounter(movement, length, queen, obstacles_positions)
         print(counter)
+        # with Pool(processes=4) as pool:
+        #     multiple_results = [pool.apply_async(movementscounter, (movement, length, queen, obstacles_positions)) for movement in MOVEMENTS.keys()]
+        #     print(sum([res.get() for res in multiple_results]))
 
 
 if __name__ == '__main__':
+    tic = time.clock()
     queensattack()
+    toc = time.clock()
+    print(toc - tic)
