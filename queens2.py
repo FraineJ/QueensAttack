@@ -45,13 +45,12 @@ def queensattack():
     obstacles_quantity = input_txt[0][1]
     queen = input_txt[1]
     obstacles_positions = input_txt[2:]
-    if len(obstacles_positions) != obstacles_quantity or 0 > length > 100000 and queen in obstacles_positions:
+    if len(obstacles_positions) != obstacles_quantity or 0 > length > 100000:
         print("Validation error!")
-    else:
-        counter = 0
-        for movement in MOVEMENTS.keys():
-            counter = counter + movementscounter(movement, length, queen, obstacles_positions)
-        print(counter)
+    counter = 0
+    for movement in MOVEMENTS.keys():
+        counter = counter + movementscounter(movement, length, queen, obstacles_positions)
+    print(counter)
 
 
 if __name__ == '__main__':
